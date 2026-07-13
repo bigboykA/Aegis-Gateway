@@ -2,23 +2,20 @@ package com.aegis.gateway.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClient;
+
+
+import com.aegis.gateway.service.RoutingService;
 
 @RestController
 public class GatewayController {
-    private final RestClient restClient;
+    private final RoutingService routingService;
 
-    public GatewayController(RestClient restClient){
-        this.restClient = restClient;
+    public GatewayController(RoutingService routingService){
+       this.routingService = routingService;
     }
-
-    
     @GetMapping("/hello")
     public String hello(){
-        return restClient.get()
-                .uri("http://localhost:8081/hello")
-                .retrieve()
-                .body(String.class);
+        return routingService.forwardHello();
     
     }
 
